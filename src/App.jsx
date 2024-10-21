@@ -1,3 +1,18 @@
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import AppLayout from "./ui/AppLayout";
+import Main from "./pages/Main";
+import Admin from "./pages/Admin";
+
 export default function App() {
-  return <div className="px-2 py-4">App</div>;
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route element={<AppLayout />}>
+                    <Route index element={<Navigate replace to="main" />} />
+                    <Route path="main" element={<Main />} />
+                    <Route path="admin" element={<Admin />} />
+                </Route>
+            </Routes>
+        </BrowserRouter>
+    );
 }
