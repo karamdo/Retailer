@@ -1,3 +1,3 @@
 export default function Logo() {
-    return <div className="">Logo</div>;
+    return <div className="select-none">Logo</div>;
 }
