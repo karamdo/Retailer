@@ -6,7 +6,7 @@ import Sidebar from "./Sidebar";
 export default function AppLayout() {
     const [isHidden, setIsHidden] = useState(true);
     return (
-        <div className="flex h-dvh w-dvw flex-col overflow-x-hidden sm:grid sm:grid-cols-[auto_1fr] sm:grid-rows-[auto_1fr]">
+        <div className="flex h-dvh w-dvw flex-col overflow-x-hidden sm:grid sm:grid-cols-[15dvw_1fr] sm:grid-rows-[auto_1fr]">
             <Navbar
                 isHidden={isHidden}
                 setIsHidden={() => setIsHidden(!isHidden)}
