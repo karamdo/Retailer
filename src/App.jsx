@@ -1,5 +1,5 @@
 import { useState, Suspense, lazy } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
@@ -17,6 +17,8 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Wishlist = lazy(() => import("./pages/Wishlist"));
 const ItemDetail = lazy(() => import("./pages/ItemDetail"));
+const SignIn = lazy(() => import("./pages/SignIn"));
+const SignUp = lazy(() => import("./pages/SignUp"));
 
 // Loading component for route transitions
 const RouteLoadingScreen = () => (
@@ -55,6 +57,8 @@ function AppContent() {
 						<Sidebar />
 						<Suspense fallback={<RouteLoadingScreen />}>
 							<Routes>
+								<Route path="/Retailer" element={<Navigate to="/" replace />} />
+								<Route path="/Retailer/*" element={<Navigate to="/" replace />} />
 								<Route path="/" element={<Home />} />
 								<Route path="/shop" element={<Shop />} />
 								<Route path="/cart" element={<Cart />} />
@@ -63,6 +67,8 @@ function AppContent() {
 								<Route path="/contact" element={<Contact />} />
 								<Route path="/wishlist" element={<Wishlist />} />
 								<Route path="/item/:id" element={<ItemDetail />} />
+								<Route path="/signin" element={<SignIn />} />
+								<Route path="/signup" element={<SignUp />} />
 							</Routes>
 						</Suspense>
 					</>
