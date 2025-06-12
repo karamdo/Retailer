@@ -1,9 +1,11 @@
 import { useShop } from '../context/ShopContext';
 import { FaArrowLeft, FaTrash, FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useDarkMode } from '../context/ThemeContext';
 
-export default function Wishlist({ darkMode }) {
+export default function Wishlist() {
 	const { wishlist, removeFromWishlist, addToCart } = useShop();
+	const { darkMode } = useDarkMode();
 
 	if (wishlist.length === 0) {
 		return (

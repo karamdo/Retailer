@@ -1,10 +1,12 @@
 import { useShop } from '../context/ShopContext';
 import { FaTrash, FaArrowLeft } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDarkMode } from '../context/ThemeContext';
 
-export default function Cart({ darkMode }) {
+export default function Cart() {
 	const { cart, cartTotal, removeFromCart, updateCartItemQuantity, clearCart } = useShop();
 	const navigate = useNavigate();
+	const { darkMode } = useDarkMode();
 
 	if (cart.length === 0) {
 		return (

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { FaFilter } from 'react-icons/fa';
+import { useDarkMode } from '../context/ThemeContext';
 
 // Mock data - In a real app, this would come from an API
 const mockProducts = [
@@ -69,7 +70,8 @@ const mockProducts = [
 
 const categories = ['All', 'Electronics', 'Clothing', 'Books', 'Home', 'Sports'];
 
-export default function Shop({ darkMode }) {
+export default function Shop() {
+	const { darkMode } = useDarkMode();
 	const [selectedCategory, setSelectedCategory] = useState('All');
 	const [priceRange, setPriceRange] = useState({ min: 0, max: 1500 });
 	const [filteredProducts, setFilteredProducts] = useState(mockProducts);

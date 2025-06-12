@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
+import { useDarkMode } from '../context/ThemeContext';
 
-export default function Home({ darkMode }) {
+export default function Home() {
+	const { darkMode } = useDarkMode();
+
 	return (
 		<div className={`min-h-screen pt-16 pl-64 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>
 			<div className="container mx-auto px-6 py-8">
@@ -13,8 +16,8 @@ export default function Home({ darkMode }) {
 					<Link
 						to="/shop"
 						className={`inline-block px-6 py-3 rounded-lg ${darkMode
-								? 'bg-blue-600 hover:bg-blue-700 text-white'
-								: 'bg-blue-500 hover:bg-blue-600 text-white'
+							? 'bg-blue-600 hover:bg-blue-700 text-white'
+							: 'bg-blue-500 hover:bg-blue-600 text-white'
 							} transition-colors`}
 					>
 						Start Shopping
@@ -58,14 +61,14 @@ export default function Home({ darkMode }) {
 							type="email"
 							placeholder="Enter your email"
 							className={`flex-1 px-4 py-2 rounded-l-lg ${darkMode
-									? 'bg-gray-700 text-white placeholder-gray-400'
-									: 'bg-gray-100 text-gray-800 placeholder-gray-500'
+								? 'bg-gray-700 text-white placeholder-gray-400'
+								: 'bg-gray-100 text-gray-800 placeholder-gray-500'
 								} focus:outline-none`}
 						/>
 						<button
 							className={`px-6 py-2 rounded-r-lg ${darkMode
-									? 'bg-blue-600 hover:bg-blue-700'
-									: 'bg-blue-500 hover:bg-blue-600'
+								? 'bg-blue-600 hover:bg-blue-700'
+								: 'bg-blue-500 hover:bg-blue-600'
 								} text-white transition-colors`}
 						>
 							Subscribe

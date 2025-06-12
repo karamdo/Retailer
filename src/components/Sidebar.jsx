@@ -1,8 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 import { FaShoppingBag, FaHeart, FaUser, FaEnvelope } from 'react-icons/fa';
+import { useDarkMode } from '../context/ThemeContext';
 
-export default function Sidebar({ darkMode }) {
+export default function Sidebar() {
 	const location = useLocation();
+	const { darkMode } = useDarkMode();
 
 	const navItems = [
 		{ path: '/shop', icon: <FaShoppingBag />, label: 'Shop' },

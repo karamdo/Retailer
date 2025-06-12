@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FaBox, FaUser, FaCreditCard, FaSignOutAlt } from 'react-icons/fa';
+import { useDarkMode } from '../context/ThemeContext';
 
 // Mock user data
 const mockUser = {
@@ -31,8 +32,9 @@ const mockOrders = [
 	},
 ];
 
-export default function Dashboard({ darkMode }) {
+export default function Dashboard() {
 	const [activeTab, setActiveTab] = useState('orders');
+	const { darkMode } = useDarkMode();
 
 	return (
 		<div className={`min-h-screen pt-16 pl-64 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>

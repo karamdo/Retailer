@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { useDarkMode } from '../context/ThemeContext';
 
-export default function Contact({ darkMode }) {
+export default function Contact() {
+	const { darkMode } = useDarkMode();
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',

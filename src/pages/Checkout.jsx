@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDarkMode } from '../context/ThemeContext';
 
-export default function Checkout({ darkMode }) {
+export default function Checkout() {
 	const navigate = useNavigate();
 	const [step, setStep] = useState(1);
+	const { darkMode } = useDarkMode();
 	const [formData, setFormData] = useState({
 		shipping: {
 			fullName: '',
