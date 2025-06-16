@@ -100,23 +100,43 @@ export default function Shop() {
 
 	return (
 		<div className={`min-h-screen pt-16 pl-64 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>
-			<div className="container mx-auto px-6 py-8">
-				{/* Filters Section */}
-				<div className={`mb-8 p-6 rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-					<div className="flex items-center mb-4">
-						<FaFilter className="mr-2" />
-						<h2 className="text-xl font-semibold">Filters</h2>
+			<div className="container mx-auto px-6 py-8 relative">
+				{/* Products Grid */}
+				<div className="pr-80"> {/* Add padding to prevent overlap with fixed filters */}
+					{filteredProducts.length > 0 ? (
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+							{filteredProducts.map(product => (
+								<Link to={`/item/${product.id}`} key={product.id} className="block">
+									<ProductCard
+										product={product}
+										darkMode={darkMode}
+									/>
+								</Link>
+							))}
+						</div>
+					) : (
+						<div className={`text-center py-12 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+							No products found matching your criteria
+						</div>
+					)}
+				</div>
+
+				{/* Fixed Filters Section */}
+				<div className={`fixed top-20 right-0 w-72 p-4 h-[calc(100vh-5rem)] overflow-y-auto ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg border-l ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+					<div className="flex items-center mb-2 sticky top-0 bg-inherit pb-2">
+						<FaFilter className="mr-2 text-sm" />
+						<h2 className="text-lg font-semibold">Filters</h2>
 					</div>
 
 					{/* Categories */}
-					<div className="mb-6">
-						<h3 className="text-lg font-medium mb-3">Categories</h3>
-						<div className="flex flex-wrap gap-2">
+					<div className="mb-3">
+						<h3 className="text-sm font-medium mb-2">Categories</h3>
+						<div className="flex flex-col gap-1">
 							{categories.map(category => (
 								<button
 									key={category}
 									onClick={() => setSelectedCategory(category)}
-									className={`px-4 py-2 rounded-lg ${selectedCategory === category
+									className={`px-2 py-1 text-sm rounded text-left ${selectedCategory === category
 										? darkMode
 											? 'bg-blue-600 text-white'
 											: 'bg-blue-500 text-white'
@@ -132,54 +152,36 @@ export default function Shop() {
 					</div>
 
 					{/* Price Range Slider */}
-					<div className="mb-6">
-						<h3 className="text-lg font-medium mb-3">Price Range</h3>
-						<div className="space-y-4">
-							<div className="flex justify-between items-center">
-								<input
-									type="range"
-									min={minPrice}
-									max={maxPrice}
-									value={priceRange.min}
-									onChange={(e) => handlePriceChange(e, 'min')}
-									className={`w-full h-2 rounded-lg appearance-none cursor-pointer ${darkMode ? 'bg-gray-700' : 'bg-gray-200'
-										}`}
-								/>
-								<input
-									type="range"
-									min={minPrice}
-									max={maxPrice}
-									value={priceRange.max}
-									onChange={(e) => handlePriceChange(e, 'max')}
-									className={`w-full h-2 rounded-lg appearance-none cursor-pointer ${darkMode ? 'bg-gray-700' : 'bg-gray-200'
-										}`}
-								/>
-							</div>
-							<div className="flex justify-between items-center text-sm">
-								<span>${priceRange.min.toFixed(2)}</span>
-								<span>${priceRange.max.toFixed(2)}</span>
+					<div>
+						<h3 className="text-sm font-medium mb-2">Price Range</h3>
+						<div className="space-y-2">
+							<div className="flex flex-col gap-2">
+								<div className="flex items-center gap-2">
+									<span className="text-xs w-16">Min: ${priceRange.min.toFixed(2)}</span>
+									<input
+										type="range"
+										min={minPrice}
+										max={maxPrice}
+										value={priceRange.min}
+										onChange={(e) => handlePriceChange(e, 'min')}
+										className={`w-full h-1.5 rounded-lg appearance-none cursor-pointer ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}
+									/>
+								</div>
+								<div className="flex items-center gap-2">
+									<span className="text-xs w-16">Max: ${priceRange.max.toFixed(2)}</span>
+									<input
+										type="range"
+										min={minPrice}
+										max={maxPrice}
+										value={priceRange.max}
+										onChange={(e) => handlePriceChange(e, 'max')}
+										className={`w-full h-1.5 rounded-lg appearance-none cursor-pointer ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}
+									/>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-
-				{/* Products Grid */}
-				{filteredProducts.length > 0 ? (
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-						{filteredProducts.map(product => (
-							<Link to={`/item/${product.id}`} key={product.id} className="block">
-								<ProductCard
-									product={product}
-									darkMode={darkMode}
-								/>
-							</Link>
-						))}
-					</div>
-				) : (
-					<div className={`text-center py-12 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-						No products found matching your criteria
-					</div>
-				)}
 			</div>
 		</div>
 	);

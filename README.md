@@ -1,4 +1,4 @@
-# Retailer2 - Modern E-commerce Application
+# Retailer - Modern E-commerce Application
 
 A modern e-commerce application built with React, Vite, and TailwindCSS, featuring a clean and responsive user interface.
 
@@ -10,6 +10,7 @@ A modern e-commerce application built with React, Vite, and TailwindCSS, featuri
 - **Routing:** React Router DOM 7.6.2
 - **Icons:** React Icons 5.5.0
 - **Notifications:** React Toastify 11.0.5
+- **Deployment:** GitHub Pages
 - **Code Quality:**
   - ESLint 9.25.0
   - Prettier 3.5.3
@@ -29,11 +30,13 @@ retailer2/
 │   ├── index.css       # Global styles
 │   └── showToast.jsx   # Toast notification utility
 ├── public/             # Static assets
+├── dist/               # Production build output
 ├── index.html          # HTML entry point
 ├── vite.config.js      # Vite configuration
 ├── tailwind.config.js  # TailwindCSS configuration
 ├── eslint.config.js    # ESLint configuration
 ├── .prettierrc         # Prettier configuration
+├── .gitignore          # Git ignore rules
 └── package.json        # Project dependencies and scripts
 ```
 
@@ -42,7 +45,7 @@ retailer2/
 1. Clone the repository:
    ```bash
    git clone [repository-url]
-   cd retailer2
+   cd retailer
    ```
 
 2. Install dependencies:
@@ -65,12 +68,19 @@ retailer2/
    npm run preview
    ```
 
+6. Deploy to GitHub Pages:
+   ```bash
+   npm run deploy
+   ```
+
 ## 📝 Available Scripts
 
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
+- `npm run predeploy` - Build for deployment
+- `npm run deploy` - Deploy to GitHub Pages
 
 ## 🎨 Features
 
@@ -93,18 +103,32 @@ retailer2/
 ## 📦 Dependencies
 
 ### Production Dependencies
-- React and React DOM
-- React Router DOM for routing
-- React Icons for icon components
-- React Toastify for notifications
-- TailwindCSS for styling
+- React and React DOM (19.1.0)
+- React Router DOM (7.6.2) for routing
+- React Icons (5.5.0) for icon components
+- React Toastify (11.0.5) for notifications
+- TailwindCSS (4.1.8) for styling
 
 ### Development Dependencies
-- Vite for development and building
-- ESLint for code linting
-- Prettier for code formatting
+- Vite (6.3.5) for development and building
+- ESLint (9.25.0) for code linting
+- Prettier (3.5.3) for code formatting
 - TypeScript type definitions
-- Various ESLint plugins
+- gh-pages (6.3.0) for deployment
+- Various ESLint plugins and development tools
+
+## 🚀 Deployment
+
+The application is configured for deployment to GitHub Pages. The deployment process is automated using the `gh-pages` package:
+
+1. The `predeploy` script automatically builds the production version of the application
+2. The `deploy` script publishes the built files to the `gh-pages` branch
+3. GitHub Pages serves the application from the `gh-pages` branch
+
+To deploy updates:
+1. Commit your changes to the main branch
+2. Run `npm run deploy`
+3. Wait for GitHub Pages to update (usually takes a few minutes)
 
 ## 🤝 Contributing
 

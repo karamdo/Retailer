@@ -33,7 +33,7 @@ function AppContent() {
 
 	return (
 		<ShopProvider>
-			<div className={darkMode ? "dark" : ""}>
+			<div className={`${darkMode ? "dark" : ""}`}>
 				<ToastContainer
 					theme={darkMode ? "dark" : "light"}
 					position="top-right"
@@ -57,8 +57,6 @@ function AppContent() {
 						<Sidebar />
 						<Suspense fallback={<RouteLoadingScreen />}>
 							<Routes>
-								<Route path="/Retailer" element={<Navigate to="/" replace />} />
-								<Route path="/Retailer/*" element={<Navigate to="/" replace />} />
 								<Route path="/" element={<Home />} />
 								<Route path="/shop" element={<Shop />} />
 								<Route path="/cart" element={<Cart />} />

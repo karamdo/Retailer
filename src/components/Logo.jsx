@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+import { BiCart } from 'react-icons/bi';
+import { BsCartCheckFill } from 'react-icons/bs';
+import { FaCartPlus } from 'react-icons/fa6';
 
 export default function Logo({ className = '', size = 'default', isAnimating = false }) {
 	const [isVisible, setIsVisible] = useState(false);
@@ -13,35 +16,36 @@ export default function Logo({ className = '', size = 'default', isAnimating = f
 		large: 'w-16 h-16'
 	};
 
-	// Neural network node positions
+	// Node positions around the cart - adjusted for better spacing
 	const nodes = [
-		{ x: 20, y: 20 }, { x: 50, y: 20 }, { x: 80, y: 20 },
-		{ x: 20, y: 50 }, { x: 50, y: 50 }, { x: 80, y: 50 },
-		{ x: 20, y: 80 }, { x: 50, y: 80 }, { x: 80, y: 80 }
+		{ x: 25, y: 15 }, { x: 50, y: 10 }, { x: 75, y: 15 },
+		{ x: 15, y: 40 }, { x: 85, y: 40 },
+		{ x: 15, y: 60 }, { x: 85, y: 60 },
+		{ x: 25, y: 85 }, { x: 50, y: 90 }, { x: 75, y: 85 }
 	];
 
 	return (
 		<div className={`relative ${sizes[size]} ${className}`}>
 			<svg
 				viewBox="0 0 100 100"
-				className={`w-full h-full transition-all duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+				className={`w-full h-full transition-all relative duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
 			>
-				{/* Neural Network Nodes */}
+				{/* Outer Nodes */}
 				{nodes.map((node, index) => (
 					<circle
 						key={index}
 						cx={node.x}
 						cy={node.y}
-						r="3"
-						className={`fill-current transition-all duration-700 ${isAnimating ? 'animate-pulse' : ''
-							}`}
+						r="2.5"
+						className={`fill-current transition-all duration-700 ${isAnimating ? 'animate-pulse' : ''}`}
 						style={{
-							animationDelay: `${index * 0.1}s`
+							animationDelay: `${index * 0.1}s`,
+							opacity: 0.5
 						}}
 					/>
 				))}
 
-				{/* Neural Network Connections */}
+				{/* Node Connections */}
 				{nodes.map((node, index) => {
 					// Connect each node to its neighbors
 					const connections = nodes.slice(index + 1).map((targetNode, targetIndex) => (
@@ -51,79 +55,31 @@ export default function Logo({ className = '', size = 'default', isAnimating = f
 							y1={node.y}
 							x2={targetNode.x}
 							y2={targetNode.y}
-							className={`stroke-current transition-all duration-1000 ${isAnimating ? 'animate-draw' : ''
-								}`}
+							className="stroke-current transition-all duration-1000"
 							style={{
 								strokeWidth: 1,
 								strokeDasharray: 100,
 								strokeDashoffset: isAnimating ? 0 : 100,
-								opacity: 0.3
+								opacity: 0.15
 							}}
 						/>
 					));
 					return connections;
 				})}
 
-				{/* Shopping Cart */}
-				<g
-					className={`transition-all duration-700 ${isAnimating ? 'animate-bounce-slow' : ''
-						}`}
-					transform="translate(35, 35) scale(0.6)"
-				>
-					{/* Cart Body */}
-					<path
-						d="M10 20 L40 20 L45 5 L15 5 Z"
-						className="fill-none stroke-current"
-						style={{
-							strokeWidth: 2,
-							strokeDasharray: 100,
-							strokeDashoffset: isAnimating ? 0 : 100
-						}}
-					/>
-					{/* Cart Wheels */}
-					<circle
-						cx="15"
-						cy="25"
-						r="3"
-						className="fill-current"
-						style={{
-							animationDelay: '0.5s'
-						}}
-					/>
-					<circle
-						cx="35"
-						cy="25"
-						r="3"
-						className="fill-current"
-						style={{
-							animationDelay: '0.7s'
-						}}
-					/>
-					{/* Cart Handle */}
-					<path
-						d="M5 20 L10 20"
-						className="stroke-current"
-						style={{
-							strokeWidth: 2,
-							strokeDasharray: 10,
-							strokeDashoffset: isAnimating ? 0 : 10
-						}}
-					/>
-				</g>
+				<BiCart className="text-6xl absolute translate-x-[18%] translate-y-[21%]" />
 
-				{/* Outer Circle */}
+				{/* Inner Circle */}
 				<circle
 					cx="50"
 					cy="50"
-					r="45"
-					className={`fill-none transition-all duration-1000 ${isAnimating ? 'animate-spin-slow' : ''
-						}`}
+					r="40"
+					className="fill-none stroke-current transition-all duration-1000"
 					style={{
-						stroke: 'currentColor',
 						strokeWidth: 1,
-						strokeDasharray: 280,
-						strokeDashoffset: isAnimating ? 0 : 280,
-						opacity: 0.2
+						strokeDasharray: 250,
+						strokeDashoffset: isAnimating ? 0 : 250,
+						opacity: 0.1
 					}}
 				/>
 			</svg>
