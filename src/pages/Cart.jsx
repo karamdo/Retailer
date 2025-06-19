@@ -18,7 +18,7 @@ export default function Cart() {
 							Looks like you haven't added any items to your cart yet.
 						</p>
 						<Link
-							to="/shop"
+							to="/Retailer/shop"
 							className={`inline-flex items-center px-6 py-3 rounded-lg ${darkMode
 								? 'bg-blue-600 hover:bg-blue-700'
 								: 'bg-blue-500 hover:bg-blue-600'
@@ -38,7 +38,7 @@ export default function Cart() {
 			<div className="container mx-auto px-6 py-8">
 				<div className="flex justify-between items-center mb-8">
 					<Link
-						to="/shop"
+						to="/Retailer/shop"
 						className={`inline-flex items-center ${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-800'
 							}`}
 					>
@@ -151,7 +151,7 @@ export default function Cart() {
 									<span className="font-bold text-lg">${cartTotal.toFixed(2)}</span>
 								</div>
 								<button
-									onClick={() => navigate('/checkout')}
+									onClick={() => navigate('/Retailer/checkout')}
 									className={`w-full py-3 rounded-lg ${darkMode
 										? 'bg-blue-600 hover:bg-blue-700'
 										: 'bg-blue-500 hover:bg-blue-600'

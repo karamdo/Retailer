@@ -7,10 +7,10 @@ export default function Sidebar() {
 	const { darkMode } = useDarkMode();
 
 	const navItems = [
-		{ path: '/shop', icon: <FaShoppingBag />, label: 'Shop' },
-		{ path: '/wishlist', icon: <FaHeart />, label: 'Wishlist' },
-		{ path: '/dashboard', icon: <FaUser />, label: 'Dashboard' },
-		{ path: '/contact', icon: <FaEnvelope />, label: 'Contact' },
+		{ path: '/Retailer/shop', icon: <FaShoppingBag />, label: 'Shop' },
+		{ path: '/Retailer/wishlist', icon: <FaHeart />, label: 'Wishlist' },
+		{ path: '/Retailer/dashboard', icon: <FaUser />, label: 'Dashboard' },
+		{ path: '/Retailer/contact', icon: <FaEnvelope />, label: 'Contact' },
 	];
 
 	return (

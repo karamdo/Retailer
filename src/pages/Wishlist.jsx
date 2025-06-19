@@ -17,7 +17,7 @@ export default function Wishlist() {
 							Save items you love to your wishlist and they'll appear here.
 						</p>
 						<Link
-							to="/shop"
+							to="/Retailer/shop"
 							className={`inline-flex items-center px-6 py-3 rounded-lg ${darkMode
 								? 'bg-blue-600 hover:bg-blue-700'
 								: 'bg-blue-500 hover:bg-blue-600'
@@ -37,7 +37,7 @@ export default function Wishlist() {
 			<div className="container mx-auto px-6 py-8">
 				<div className="flex justify-between items-center mb-8">
 					<Link
-						to="/shop"
+						to="/Retailer/shop"
 						className={`inline-flex items-center ${darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-800'
 							}`}
 					>
@@ -54,7 +54,7 @@ export default function Wishlist() {
 								} shadow-lg hover:shadow-xl`}
 						>
 							{/* Product Image */}
-							<Link to={`/item/${item.id}`} className="block relative aspect-square overflow-hidden">
+							<Link to={`/Retailer/item/${item.id}`} className="block relative aspect-square overflow-hidden">
 								<img
 									src={item.image}
 									alt={item.name}
@@ -65,7 +65,7 @@ export default function Wishlist() {
 							{/* Product Info */}
 							<div className="p-4">
 								<Link
-									to={`/item/${item.id}`}
+									to={`/Retailer/item/${item.id}`}
 									className={`font-semibold text-lg mb-1 line-clamp-1 hover:underline ${darkMode ? 'text-white' : 'text-gray-800'
 										}`}
 								>

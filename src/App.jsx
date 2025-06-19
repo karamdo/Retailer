@@ -57,16 +57,16 @@ function AppContent() {
 						<Sidebar />
 						<Suspense fallback={<RouteLoadingScreen />}>
 							<Routes>
-								<Route path="/" element={<Home />} />
-								<Route path="/shop" element={<Shop />} />
-								<Route path="/cart" element={<Cart />} />
-								<Route path="/checkout" element={<Checkout />} />
-								<Route path="/dashboard" element={<Dashboard />} />
-								<Route path="/contact" element={<Contact />} />
-								<Route path="/wishlist" element={<Wishlist />} />
-								<Route path="/item/:id" element={<ItemDetail />} />
-								<Route path="/signin" element={<SignIn />} />
-								<Route path="/signup" element={<SignUp />} />
+								<Route path="/Retailer" element={<Home />} />
+								<Route path="/Retailer/shop" element={<Shop />} />
+								<Route path="/Retailer/cart" element={<Cart />} />
+								<Route path="/Retailer/checkout" element={<Checkout />} />
+								<Route path="/Retailer/dashboard" element={<Dashboard />} />
+								<Route path="/Retailer/contact" element={<Contact />} />
+								<Route path="/Retailer/wishlist" element={<Wishlist />} />
+								<Route path="/Retailer/item/:id" element={<ItemDetail />} />
+								<Route path="/Retailer/signin" element={<SignIn />} />
+								<Route path="/Retailer/signup" element={<SignUp />} />
 							</Routes>
 						</Suspense>
 					</>

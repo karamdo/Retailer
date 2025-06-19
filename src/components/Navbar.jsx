@@ -15,7 +15,7 @@ export default function Navbar() {
 			<div className="container mx-auto px-4 py-3">
 				<div className="flex items-center justify-between">
 					{/* Logo and Brand */}
-					<Link to="/" className="flex items-center space-x-2">
+					<Link to="/Retailer" className="flex items-center space-x-2">
 						<Logo
 							size="small"
 							className={
@@ -58,7 +58,7 @@ export default function Navbar() {
 						</button>
 
 						<Link
-							to="/cart"
+							to="/Retailer/cart"
 							className={`hover:bg-opacity-80 rounded-full p-2 ${darkMode
 								? "hover:bg-gray-700"
 								: "hover:bg-gray-100"
@@ -68,7 +68,7 @@ export default function Navbar() {
 						</Link>
 
 						<Link
-							to="/signin"
+							to="/Retailer/signin"
 							className={`hover:bg-opacity-80 rounded-full p-2 ${darkMode
 								? "hover:bg-gray-700"
 								: "hover:bg-gray-100"

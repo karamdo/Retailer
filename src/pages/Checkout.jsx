@@ -40,7 +40,7 @@ export default function Checkout() {
 		} else {
 			// In a real app, you would process the payment here
 			alert('Order placed successfully!');
-			navigate('/dashboard');
+			navigate('/Retailer/dashboard');
 		}
 	};
 

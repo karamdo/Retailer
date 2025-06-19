@@ -14,7 +14,7 @@ export default function Home() {
 						Your one-stop shop for all your needs. Discover amazing products at great prices.
 					</p>
 					<Link
-						to="/shop"
+						to="/Retailer/shop"
 						className={`inline-block px-6 py-3 rounded-lg ${darkMode
 							? 'bg-blue-600 hover:bg-blue-700 text-white'
 							: 'bg-blue-500 hover:bg-blue-600 text-white'
