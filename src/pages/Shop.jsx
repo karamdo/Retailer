@@ -1,15 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import { useDarkMode } from '../context/ThemeContext';
 import Filter from '../components/Filter';
-import { mockProducts } from '../data/data';
-
-const categories = ['All', 'Electronics', 'Clothing', 'Books', 'Home', 'Sports'];
+import Spinner from '../components/Spinner';
 
 export default function Shop() {
 	const { darkMode } = useDarkMode();
-	const [filteredProducts, setFilteredProducts] = useState(mockProducts);
+	const [filteredProducts, setFilteredProducts] = useState([]);
+	const [products, setProducts] = useState([]);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		async function fetchProducts() {
+			try {
+				setLoading(true);
+				const response = await fetch('https://fakestoreapi.com/products')
+				const data = await response.json()
+				setProducts(data)
+				setFilteredProducts(data)
+			} catch (error) {
+				console.error('Error fetching products:', error);
+			} finally {
+				setLoading(false);
+			}
+		}
+		fetchProducts();
+	}, []);
+
+	if (loading) {
+		return (
+			<div className={`min-h-screen pt-16 pl-64 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>
+				<div className="container mx-auto px-6 py-8 relative">
+					<div className="flex items-center justify-center min-h-[400px]">
+						<div className="text-center">
+							<Spinner size="xl" className="mb-4" />
+							<p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+								Loading products...
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className={`min-h-screen pt-16 pl-64 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>
@@ -35,7 +69,7 @@ export default function Shop() {
 				</div>
 
 				{/* Fixed Filters Section */}
-				<Filter categories={categories} darkMode={darkMode} setFilteredProducts={setFilteredProducts} />
+				<Filter darkMode={darkMode} setFilteredProducts={setFilteredProducts} Products={products} />
 			</div>
 		</div>
 	);

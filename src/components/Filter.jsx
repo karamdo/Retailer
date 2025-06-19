@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import { FaFilter } from "react-icons/fa";
-import { mockProducts } from "../data/data";
 
-export default function Filter({ categories, darkMode, setFilteredProducts }) {
+
+export default function Filter({ darkMode, setFilteredProducts, Products }) {
 	const [priceRange, setPriceRange] = useState({ min: 0, max: 1500 });
 	const [selectedCategory, setSelectedCategory] = useState('All');
+	const categories = new Set(['All', ...Products.map(p => p.category)]);
 
-
-	const minPrice = Math.min(...mockProducts.map(p => p.price));
-	const maxPrice = Math.max(...mockProducts.map(p => p.price));
+	const minPrice = Math.min(...Products.map(p => p.price));
+	const maxPrice = Math.max(...Products.map(p => p.price));
 
 	useEffect(() => {
 		// Filter products based on category and price range
-		const filtered = mockProducts.filter(product => {
+		const filtered = Products.filter(product => {
 			const categoryMatch = selectedCategory === 'All' || product.category === selectedCategory;
 			const priceMatch = product.price >= priceRange.min && product.price <= priceRange.max;
 			return categoryMatch && priceMatch;
@@ -39,7 +39,7 @@ export default function Filter({ categories, darkMode, setFilteredProducts }) {
 			<div className="mb-3">
 				<h3 className="text-sm font-medium mb-2">Categories</h3>
 				<div className="flex flex-col gap-1">
-					{categories.map(category => (
+					{Array.from(categories).map(category => (
 						<button
 							key={category}
 							onClick={() => setSelectedCategory(category)}
@@ -65,16 +65,16 @@ export default function Filter({ categories, darkMode, setFilteredProducts }) {
 					<div className="flex flex-col gap-2">
 						<div className="flex items-center">
 							<div className="flex justify-between w-full">
-								<span className="text-xs w-32">Min: ${minPrice.toFixed(2)}</span>
-								<span className="text-xs w-32">Max: ${maxPrice.toFixed(2)}</span>
+								<span className="text-xs w-32">Min: ${priceRange.min.toFixed(2)}</span>
+								<span className="text-xs w-32">Max: ${priceRange.max.toFixed(2)}</span>
 							</div>
 						</div>
 						<div className="flex items-center">
 							<div className="flex items-center gap-2">
 								<input
 									type="range"
-									min={minPrice}
-									max={maxPrice}
+									min={minPrice || 0}
+									max={(maxPrice + minPrice) / 2 || 1500}
 									value={priceRange.min}
 									onChange={(e) => handlePriceChange(e, 'min')}
 									className={`w-full h-1.5 rounded-lg appearance-none cursor-pointer ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}
@@ -83,8 +83,8 @@ export default function Filter({ categories, darkMode, setFilteredProducts }) {
 							<div className="flex items-center gap-2">
 								<input
 									type="range"
-									min={minPrice}
-									max={maxPrice}
+									min={(maxPrice + minPrice) / 2 || 1500}
+									max={maxPrice || 0}
 									value={priceRange.max}
 									onChange={(e) => handlePriceChange(e, 'max')}
 									className={`w-full h-1.5 rounded-lg appearance-none cursor-pointer ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}

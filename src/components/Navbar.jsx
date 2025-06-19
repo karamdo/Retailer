@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { FaMoon, FaSun, FaShoppingCart, FaUser } from "react-icons/fa";
+import { FaMoon, FaSun, FaUser } from "react-icons/fa";
 import Logo from "./Logo";
 import { useDarkMode } from "../context/ThemeContext";
 
@@ -56,16 +56,6 @@ export default function Navbar() {
 								<FaMoon className="text-gray-700" />
 							)}
 						</button>
-
-						<Link
-							to="/Retailer/cart"
-							className={`hover:bg-opacity-80 rounded-full p-2 ${darkMode
-								? "hover:bg-gray-700"
-								: "hover:bg-gray-100"
-								}`}
-						>
-							<FaShoppingCart className="text-xl" />
-						</Link>
 
 						<Link
 							to="/Retailer/signin"

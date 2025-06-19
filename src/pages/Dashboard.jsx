@@ -39,15 +39,18 @@ export default function Dashboard() {
 	return (
 		<div className={`min-h-screen pt-16 pl-64 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>
 			<div className="container mx-auto px-6 py-8">
-				<button
-					className={`flex items-center space-x-2 px-4 py-2 rounded-lg mb-8 ml-auto ${darkMode
-						? 'bg-red-600 hover:bg-red-700'
-						: 'bg-red-500 hover:bg-red-600'
-						} text-white`}
-				>
-					<FaSignOutAlt />
-					<span>Sign Out</span>
-				</button>
+				<div className="flex justify-between items-center mb-8">
+					<h1 className="text-2xl font-bold">Dashboard</h1>
+					<button
+						className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${darkMode
+							? 'bg-red-600 hover:bg-red-700'
+							: 'bg-red-500 hover:bg-red-600'
+							} text-white`}
+					>
+						<FaSignOutAlt />
+						<span>Sign Out</span>
+					</button>
+				</div>
 
 				<div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
 					{/* Sidebar */}

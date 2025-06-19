@@ -43,7 +43,7 @@ export default function ProductCard({ product, darkMode }) {
 			<div className="p-4">
 				<h3 className="font-semibold text-lg mb-1 line-clamp-1">{product.name}</h3>
 				<p className={`text-sm mb-2 line-clamp-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-					{product.description}
+					{product.title}
 				</p>
 
 				{/* Rating */}
@@ -51,9 +51,9 @@ export default function ProductCard({ product, darkMode }) {
 					<div className="flex items-center">
 						{[...Array(5)].map((_, i) => (
 							<span key={i} className="text-yellow-400">
-								{i < Math.floor(product.rating) ? (
+								{i < Math.floor(product.rating.rate) ? (
 									<FaStar />
-								) : i < Math.ceil(product.rating) ? (
+								) : i < Math.ceil(product.rating.rate) ? (
 									<FaStarHalfAlt />
 								) : (
 									<FaStar className="text-gray-300" />
@@ -62,7 +62,7 @@ export default function ProductCard({ product, darkMode }) {
 						))}
 					</div>
 					<span className={`text-sm ml-2 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-						({product.reviews})
+						({product.rating.count})
 					</span>
 				</div>
 

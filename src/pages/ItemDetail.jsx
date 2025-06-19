@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
 	FaShoppingCart,
@@ -10,6 +10,7 @@ import {
 import { useShop } from "../context/ShopContext";
 import { showToast } from "../showToast";
 import { useDarkMode } from '../context/ThemeContext';
+import Spinner from '../components/Spinner';
 
 // Mock data - In a real app, this would come from an API
 const mockProducts = [
@@ -47,11 +48,42 @@ export default function ItemDetail() {
 		useShop();
 	const [selectedImage, setSelectedImage] = useState(0);
 	const [quantity, setQuantity] = useState(1);
-	const [selectedColor, setSelectedColor] = useState("");
 	const { darkMode } = useDarkMode();
+	const [product, setProduct] = useState(null);
+	const [loading, setLoading] = useState(true);
 
-	// Find the product - In a real app, this would be an API call
-	const product = mockProducts.find((p) => p.id === parseInt(id));
+	useEffect(() => {
+		async function fetchProduct() {
+			try {
+				setLoading(true);
+				const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+				const data = await response.json();
+				setProduct(data);
+			} catch (error) {
+				console.error('Error fetching product:', error);
+			} finally {
+				setLoading(false);
+			}
+		}
+		fetchProduct();
+	}, [id]);
+
+	if (loading) {
+		return (
+			<div className={`min-h-screen pt-16 pl-64 ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-800"}`}>
+				<div className="container mx-auto px-6 py-8">
+					<div className="flex items-center justify-center min-h-[400px]">
+						<div className="text-center">
+							<Spinner size="xl" className="mb-4" />
+							<p className={`text-lg ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+								Loading product details...
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
 	if (!product) {
 		return (
@@ -80,11 +112,7 @@ export default function ItemDetail() {
 	}
 
 	const handleAddToCart = () => {
-		if (!selectedColor) {
-			showToast.error("Please select a color");
-			return;
-		}
-		addToCart(product, quantity, selectedColor);
+		addToCart(product, quantity);
 	};
 
 	const handleWishlistClick = () => {
@@ -119,30 +147,10 @@ export default function ItemDetail() {
 							className={`overflow-hidden rounded-lg ${darkMode ? "bg-gray-800" : "bg-white"} shadow-lg`}
 						>
 							<img
-								src={product.images[selectedImage]}
+								src={product.image}
 								alt={product.name}
 								className="h-[400px] w-full object-cover"
 							/>
-						</div>
-						<div className="grid grid-cols-4 gap-4">
-							{product.images.map((image, index) => (
-								<button
-									key={index}
-									onClick={() => setSelectedImage(index)}
-									className={`overflow-hidden rounded-lg ${selectedImage === index
-										? "ring-2 ring-blue-500"
-										: darkMode
-											? "bg-gray-800"
-											: "bg-white"
-										} shadow-md`}
-								>
-									<img
-										src={image}
-										alt={`${product.name} ${index + 1}`}
-										className="h-24 w-full object-cover"
-									/>
-								</button>
-							))}
 						</div>
 					</div>
 
@@ -201,7 +209,7 @@ export default function ItemDetail() {
 							<ul
 								className={`list-inside list-disc ${darkMode ? "text-gray-300" : "text-gray-600"}`}
 							>
-								{product.features.map((feature, index) => (
+								{product.description.split(',').map((feature, index) => (
 									<li key={index}>{feature}</li>
 								))}
 							</ul>
@@ -209,24 +217,11 @@ export default function ItemDetail() {
 
 						<div>
 							<h2 className="mb-2 text-lg font-semibold">
-								Color
+								Category
 							</h2>
-							<div className="flex space-x-2">
-								{product.colors.map((color) => (
-									<button
-										key={color}
-										onClick={() => setSelectedColor(color)}
-										className={`rounded-lg border px-4 py-2 ${selectedColor === color
-											? "border-blue-500 bg-blue-500 text-white"
-											: darkMode
-												? "border-gray-600 hover:border-gray-500"
-												: "border-gray-300 hover:border-gray-400"
-											}`}
-									>
-										{color}
-									</button>
-								))}
-							</div>
+							<p className={`${darkMode ? "text-gray-300" : "text-gray-600"}`}>
+								{product.category}
+							</p>
 						</div>
 
 						<div>
@@ -252,7 +247,7 @@ export default function ItemDetail() {
 									onClick={() =>
 										setQuantity(
 											Math.min(
-												product.stock,
+												product.rating.count,
 												quantity + 1,
 											),
 										)
