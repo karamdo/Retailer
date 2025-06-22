@@ -16,8 +16,8 @@ export default function CartCard({ darkMode }) {
 					{/* Product Image */}
 					<Link to={`/Retailer/item/${item.id}`} className="flex-shrink-0">
 						<img
-							src={item.image}
-							alt={item.name}
+							src={item.images?.[0] || item.thumbnail}
+							alt={item.title}
 							className="w-24 h-24 object-cover rounded-lg"
 						/>
 					</Link>
@@ -29,7 +29,7 @@ export default function CartCard({ darkMode }) {
 							className={`font-semibold hover:underline ${darkMode ? 'text-white' : 'text-gray-800'
 								}`}
 						>
-							{item.name}
+							{item.title}
 						</Link>
 						{item.color && (
 							<p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>

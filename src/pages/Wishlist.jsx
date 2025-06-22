@@ -56,8 +56,8 @@ export default function Wishlist() {
 							{/* Product Image */}
 							<Link to={`/Retailer/item/${item.id}`} className="block relative aspect-square overflow-hidden">
 								<img
-									src={item.image}
-									alt={item.name}
+									src={item.images?.[0] || item.thumbnail}
+									alt={item.title}
 									className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
 								/>
 							</Link>
@@ -69,7 +69,7 @@ export default function Wishlist() {
 									className={`font-semibold text-lg mb-1 line-clamp-1 hover:underline ${darkMode ? 'text-white' : 'text-gray-800'
 										}`}
 								>
-									{item.name}
+									{item.title}
 								</Link>
 								<p className={`text-sm mb-2 line-clamp-2 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
 									{item.description}

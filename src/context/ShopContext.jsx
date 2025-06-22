@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { showToast } from "../showToast";
-import { useDarkMode } from '../context/ThemeContext';
 
 const ShopContext = createContext();
 
@@ -14,7 +13,6 @@ export function useShop() {
 }
 
 export function ShopProvider({ children }) {
-	const { darkMode } = useDarkMode();
 	// Initialize state from localStorage or with default values
 	const [cart, setCart] = useState(() => {
 		const savedCart = localStorage.getItem("cart");
@@ -53,7 +51,7 @@ export function ShopProvider({ children }) {
 				return [...prevCart, { ...product, quantity, color }];
 			}
 		});
-		showToast.cart(`Added ${quantity} ${product.name} to cart!`);
+		showToast.cart(`Added ${quantity} ${product.title} to cart!`);
 	};
 
 	const removeFromCart = (productId, color = null) => {
@@ -93,7 +91,7 @@ export function ShopProvider({ children }) {
 			}
 			return [...prevWishlist, product];
 		});
-		showToast.wishlist(`Added ${product.name} to wishlist!`);
+		showToast.wishlist(`Added ${product.title} to wishlist!`);
 	};
 
 	const removeFromWishlist = (productId) => {

@@ -4,31 +4,28 @@ import ProductCard from '../components/ProductCard';
 import { useDarkMode } from '../context/ThemeContext';
 import Filter from '../components/Filter';
 import Spinner from '../components/Spinner';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Shop() {
 	const { darkMode } = useDarkMode();
-	const [filteredProducts, setFilteredProducts] = useState([]);
-	const [products, setProducts] = useState([]);
-	const [loading, setLoading] = useState(true);
+
+	const { data, isLoading, error } = useQuery({
+		queryKey: ['products'],
+		queryFn: async () => {
+			const response = await fetch('https://dummyjson.com/products');
+			if (!response.ok) throw new Error('Network response was not ok');
+			return response.json();
+		},
+	});
+
+	const products = data?.products || [];
+	const [filteredProducts, setFilteredProducts] = useState(products);
 
 	useEffect(() => {
-		async function fetchProducts() {
-			try {
-				setLoading(true);
-				const response = await fetch('https://fakestoreapi.com/products')
-				const data = await response.json()
-				setProducts(data)
-				setFilteredProducts(data)
-			} catch (error) {
-				console.error('Error fetching products:', error);
-			} finally {
-				setLoading(false);
-			}
-		}
-		fetchProducts();
-	}, []);
+		setFilteredProducts(products);
+	}, [products]);
 
-	if (loading) {
+	if (isLoading) {
 		return (
 			<div className={`min-h-screen pt-16 pl-64 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>
 				<div className="container mx-auto px-6 py-8 relative">
@@ -43,6 +40,10 @@ export default function Shop() {
 				</div>
 			</div>
 		);
+	}
+
+	if (error) {
+		return <div className="text-red-500">Error loading products: {error.message}</div>;
 	}
 
 	return (
