@@ -312,12 +312,6 @@ export default function ItemDetail() {
 								)}
 							</div>
 
-							{/* SKU */}
-							{product.sku && (
-								<p className={`mb-2 text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-									SKU: {product.sku}
-								</p>
-							)}
 						</div>
 
 						{/* Description */}
