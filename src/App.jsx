@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import LoadingScreen from "./components/LoadingScreen";
 import { ShopProvider } from "./context/ShopContext";
+import { AdminProvider } from "./context/AdminContext";
 import { ThemeProvider, useDarkMode } from "./context/ThemeContext";
 
 // Lazy load components
@@ -33,45 +34,47 @@ function AppContent() {
 
 	return (
 		<ShopProvider>
-			<div className={`${darkMode ? "dark" : ""}`}>
-				<ToastContainer
-					theme={darkMode ? "dark" : "light"}
-					position="top-right"
-					autoClose={3000}
-					hideProgressBar={false}
-					newestOnTop
-					closeOnClick
-					rtl={false}
-					pauseOnFocusLoss
-					draggable
-					pauseOnHover
-				/>
-
-				{isInitialLoad ? (
-					<LoadingScreen
-						onLoadComplete={() => setIsInitialLoad(false)}
+			<AdminProvider>
+				<div className={`${darkMode ? "dark" : ""}`}>
+					<ToastContainer
+						theme={darkMode ? "dark" : "light"}
+						position="top-right"
+						autoClose={3000}
+						hideProgressBar={false}
+						newestOnTop
+						closeOnClick
+						rtl={false}
+						pauseOnFocusLoss
+						draggable
+						pauseOnHover
 					/>
-				) : (
-					<>
-						<Navbar />
-						<Sidebar />
-						<Suspense fallback={<RouteLoadingScreen />}>
-							<Routes>
-								<Route path="/Retailer" element={<Home />} />
-								<Route path="/Retailer/shop" element={<Shop />} />
-								<Route path="/Retailer/cart" element={<Cart />} />
-								<Route path="/Retailer/checkout" element={<Checkout />} />
-								<Route path="/Retailer/dashboard" element={<Dashboard />} />
-								<Route path="/Retailer/contact" element={<Contact />} />
-								<Route path="/Retailer/wishlist" element={<Wishlist />} />
-								<Route path="/Retailer/item/:id" element={<ItemDetail />} />
-								<Route path="/Retailer/signin" element={<SignIn />} />
-								<Route path="/Retailer/signup" element={<SignUp />} />
-							</Routes>
-						</Suspense>
-					</>
-				)}
-			</div>
+
+					{isInitialLoad ? (
+						<LoadingScreen
+							onLoadComplete={() => setIsInitialLoad(false)}
+						/>
+					) : (
+						<>
+							<Navbar />
+							<Sidebar />
+							<Suspense fallback={<RouteLoadingScreen />}>
+								<Routes>
+									<Route path="/Retailer" element={<Home />} />
+									<Route path="/Retailer/shop" element={<Shop />} />
+									<Route path="/Retailer/cart" element={<Cart />} />
+									<Route path="/Retailer/checkout" element={<Checkout />} />
+									<Route path="/Retailer/dashboard" element={<Dashboard />} />
+									<Route path="/Retailer/contact" element={<Contact />} />
+									<Route path="/Retailer/wishlist" element={<Wishlist />} />
+									<Route path="/Retailer/item/:id" element={<ItemDetail />} />
+									<Route path="/Retailer/signin" element={<SignIn />} />
+									<Route path="/Retailer/signup" element={<SignUp />} />
+								</Routes>
+							</Suspense>
+						</>
+					)}
+				</div>
+			</AdminProvider>
 		</ShopProvider>
 	);
 }

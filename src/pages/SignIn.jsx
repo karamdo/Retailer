@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { showToast } from '../showToast';
+import { useDarkMode } from '../context/ThemeContext';
 
 const SignIn = () => {
 	const navigate = useNavigate();
+	const { darkMode } = useDarkMode();
 	const [showPassword, setShowPassword] = useState(false);
 	const [formData, setFormData] = useState({
 		email: '',
@@ -28,15 +30,15 @@ const SignIn = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-			<div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
+		<div className={`min-h-screen ${darkMode ? 'bg-gray-900' : 'bg-gray-100'} flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8`}>
+			<div className={`max-w-md w-full space-y-8 ${darkMode ? 'bg-gray-800' : 'bg-white'} p-8 rounded-xl shadow-lg`}>
 				<div>
-					<h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+					<h2 className={`mt-6 text-center text-3xl font-extrabold ${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>
 						Sign in to your account
 					</h2>
-					<p className="mt-2 text-center text-sm text-gray-600">
+					<p className={`mt-2 text-center text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
 						Or{' '}
-						<Link to="/Retailer/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
+						<Link to="/Retailer/signup" className={`font-medium ${darkMode ? 'text-indigo-400 hover:text-indigo-300' : 'text-indigo-600 hover:text-indigo-500'}`}>
 							create a new account
 						</Link>
 					</p>
@@ -53,7 +55,7 @@ const SignIn = () => {
 								type="email"
 								autoComplete="email"
 								required
-								className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								className={`appearance-none rounded-lg relative block w-full px-3 py-2 border ${darkMode ? 'border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500'} focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
 								placeholder="Email address"
 								value={formData.email}
 								onChange={handleChange}
@@ -69,7 +71,7 @@ const SignIn = () => {
 								type={showPassword ? "text" : "password"}
 								autoComplete="current-password"
 								required
-								className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								className={`appearance-none rounded-lg relative block w-full px-3 py-2 border ${darkMode ? 'border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500'} focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
 								placeholder="Password"
 								value={formData.password}
 								onChange={handleChange}
@@ -80,9 +82,9 @@ const SignIn = () => {
 								onClick={() => setShowPassword(!showPassword)}
 							>
 								{showPassword ? (
-									<FaEyeSlash className="h-5 w-5 text-gray-400" />
+									<FaEyeSlash className={`h-5 w-5 ${darkMode ? 'text-gray-300' : 'text-gray-400'}`} />
 								) : (
-									<FaEye className="h-5 w-5 text-gray-400" />
+									<FaEye className={`h-5 w-5 ${darkMode ? 'text-gray-300' : 'text-gray-400'}`} />
 								)}
 							</button>
 						</div>
@@ -94,15 +96,15 @@ const SignIn = () => {
 								id="remember-me"
 								name="remember-me"
 								type="checkbox"
-								className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+								className={`h-4 w-4 text-indigo-600 focus:ring-indigo-500 border rounded ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-300'}`}
 							/>
-							<label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+							<label htmlFor="remember-me" className={`ml-2 block text-sm ${darkMode ? 'text-gray-300' : 'text-gray-900'}`}>
 								Remember me
 							</label>
 						</div>
 
 						<div className="text-sm">
-							<a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+							<a href="#" className={`font-medium ${darkMode ? 'text-indigo-400 hover:text-indigo-300' : 'text-indigo-600 hover:text-indigo-500'}`}>
 								Forgot your password?
 							</a>
 						</div>
