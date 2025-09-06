@@ -1,1 +1,236 @@
 @import "tailwindcss";
+
+/* Custom Animations */
+@keyframes fade-in-up {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes float {
+
+	0%,
+	100% {
+		transform: translateY(0px);
+	}
+
+	50% {
+		transform: translateY(-20px);
+	}
+}
+
+@keyframes pulse-glow {
+
+	0%,
+	100% {
+		box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+	}
+
+	50% {
+		box-shadow: 0 0 20px rgba(59, 130, 246, 0.8), 0 0 30px rgba(59, 130, 246, 0.6);
+	}
+}
+
+@keyframes slide-in-left {
+	from {
+		opacity: 0;
+		transform: translateX(-50px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes slide-in-right {
+	from {
+		opacity: 0;
+		transform: translateX(50px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes bounce-in {
+	0% {
+		opacity: 0;
+		transform: scale(0.3);
+	}
+
+	50% {
+		opacity: 1;
+		transform: scale(1.05);
+	}
+
+	70% {
+		transform: scale(0.9);
+	}
+
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes shimmer {
+	0% {
+		background-position: -200px 0;
+	}
+
+	100% {
+		background-position: calc(200px + 100%) 0;
+	}
+}
+
+/* Animation Classes */
+.animate-fade-in-up {
+	animation: fade-in-up 0.8s ease-out forwards;
+}
+
+.animate-float {
+	animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+	animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-slide-in-left {
+	animation: slide-in-left 0.8s ease-out forwards;
+}
+
+.animate-slide-in-right {
+	animation: slide-in-right 0.8s ease-out forwards;
+}
+
+.animate-bounce-in {
+	animation: bounce-in 0.8s ease-out forwards;
+}
+
+.animate-shimmer {
+	background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+	background-size: 200px 100%;
+	animation: shimmer 1.5s infinite;
+}
+
+/* Animation Delays */
+.animation-delay-200 {
+	animation-delay: 0.2s;
+	opacity: 0;
+}
+
+.animation-delay-400 {
+	animation-delay: 0.4s;
+	opacity: 0;
+}
+
+.animation-delay-600 {
+	animation-delay: 0.6s;
+	opacity: 0;
+}
+
+.animation-delay-800 {
+	animation-delay: 0.8s;
+	opacity: 0;
+}
+
+.animation-delay-1000 {
+	animation-delay: 1s;
+	opacity: 0;
+}
+
+.animation-delay-2000 {
+	animation-delay: 2s;
+	opacity: 0;
+}
+
+/* Hover Effects */
+.hover-lift {
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+	transform: translateY(-8px);
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.hover-glow {
+	transition: box-shadow 0.3s ease;
+}
+
+.hover-glow:hover {
+	box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Gradient Text */
+.gradient-text {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+	width: 8px;
+}
+
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+	background: #374151;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+	background: #6b7280;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+	background: #9ca3af;
+}
+
+/* Hide scrollbar for horizontal scrolling */
+.scrollbar-hide {
+	-ms-overflow-style: none;
+	/* Internet Explorer 10+ */
+	scrollbar-width: none;
+	/* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+	display: none;
+	/* Safari and Chrome */
+}
+
+/* Smooth horizontal scrolling */
+.horizontal-scroll {
+	scroll-behavior: smooth;
+}
+
+/* Product card hover effects for horizontal scroll */
+.horizontal-scroll .group:hover {
+	transform: translateY(-4px);
+	transition: transform 0.3s ease;
+}
