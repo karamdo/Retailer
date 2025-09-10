@@ -1,16 +1,22 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { showToast } from '../showToast';
+import { showToast, toastConfig } from '../showToast';
+import { toast } from 'react-toastify';
 import { useDarkMode } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
+import { apiPost } from '../api/client';
 
 const SignIn = () => {
 	const navigate = useNavigate();
 	const { darkMode } = useDarkMode();
+	const { setToken, setUser, setRole } = useAuth();
 	const [showPassword, setShowPassword] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
+		loginAs: 'user',
 	});
 
 	const handleChange = (e) => {
@@ -21,12 +27,30 @@ const SignIn = () => {
 		}));
 	};
 
-	const handleSubmit = (e) => {
+	const onSubmitForm = async (e) => {
 		e.preventDefault();
-		// Here you would typically handle authentication
-		// For now, we'll just show a success message and redirect
-		showToast('Successfully signed in!', 'success');
-		navigate('/dashboard');
+		if (isSubmitting) return;
+		setIsSubmitting(true);
+		try {
+			const path = formData.loginAs === 'admin' ? '/admin/login' : '/login';
+			const payload = { email: formData.email, password: formData.password };
+			const data = await apiPost(path, payload);
+			const receivedToken = data.token || data.access_token || data?.data?.token;
+			const receivedUser = data.user || data?.data?.user || null;
+			if (!receivedToken) throw new Error('No token returned');
+			setToken(receivedToken);
+			const fallbackName = receivedUser?.name || (formData.email ? formData.email.split('@')[0] : 'User');
+			const email = receivedUser?.email || formData.email;
+			const avatar = receivedUser?.avatar || `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(email || fallbackName)}`;
+			setUser({ ...receivedUser, name: fallbackName, email, avatar });
+			setRole(formData.loginAs === 'admin' ? 'admin' : 'customer');
+			toast.success('Successfully signed in!', toastConfig);
+			navigate(formData.loginAs === 'admin' ? '/Retailer/dashboard' : '/Retailer');
+		} catch (err) {
+			showToast.error(err.message || 'Login failed');
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
 	return (
@@ -43,7 +67,7 @@ const SignIn = () => {
 						</Link>
 					</p>
 				</div>
-				<form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+				<form className="mt-8 space-y-6" onSubmit={onSubmitForm}>
 					<div className="rounded-md shadow-sm space-y-4">
 						<div>
 							<label htmlFor="email" className="sr-only">
@@ -88,6 +112,18 @@ const SignIn = () => {
 								)}
 							</button>
 						</div>
+						<div>
+							<label className={`block mb-1 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Login as</label>
+							<select
+								name="loginAs"
+								value={formData.loginAs}
+								onChange={handleChange}
+								className={`appearance-none rounded-lg relative block w-full px-3 py-2 border ${darkMode ? 'border-gray-600 bg-gray-700 text-gray-100' : 'border-gray-300 bg-white text-gray-900'} focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+							>
+								<option value="user">User</option>
+								<option value="admin">Admin</option>
+							</select>
+						</div>
 					</div>
 
 					<div className="flex items-center justify-between">
@@ -114,8 +150,9 @@ const SignIn = () => {
 						<button
 							type="submit"
 							className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+							disabled={isSubmitting}
 						>
-							Sign in
+							{isSubmitting ? 'Signing in...' : 'Sign in'}
 						</button>
 					</div>
 				</form>

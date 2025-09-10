@@ -1,5 +1,6 @@
 import { FaBox, FaUser, FaCreditCard, FaChartBar, FaUsers, FaShoppingCart } from 'react-icons/fa';
 import { useDarkMode } from '../../context/ThemeContext';
+import { useEffect } from 'react';
 
 export default function DashboardSidebar({
 	activeTab,
@@ -28,7 +29,13 @@ export default function DashboardSidebar({
 		<div className="lg:col-span-1">
 			<div className={`rounded-lg ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-lg p-4`}>
 				<div className="text-center mb-6">
-					<div className="w-24 h-24 rounded-full bg-gray-300 mx-auto mb-4"></div>
+					<div className="w-24 h-24 rounded-full bg-black mx-auto mb-4">
+						<img
+							src={user?.avatar}
+							alt={user?.name || "User"}
+							className="rounded-full object-cover"
+						/>
+					</div>
 					<h2 className="text-xl font-semibold">{user.name}</h2>
 					<p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
 						{user.email}

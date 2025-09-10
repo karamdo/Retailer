@@ -1,8 +1,17 @@
 import { FaSignOutAlt } from 'react-icons/fa';
 import { useDarkMode } from '../../context/ThemeContext';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function DashboardHeader({ isAdmin, onToggleAdmin }) {
 	const { darkMode } = useDarkMode();
+	const { signOut } = useAuth();
+	const navigate = useNavigate();
+
+	const handleSignOut = () => {
+		signOut();
+		navigate('/Retailer/signin');
+	};
 
 	return (
 		<div className="flex justify-between items-center mb-8">
@@ -20,6 +29,7 @@ export default function DashboardHeader({ isAdmin, onToggleAdmin }) {
 					{isAdmin ? 'Switch to User' : 'Switch to Admin'}
 				</button>
 				<button
+					onClick={handleSignOut}
 					className={`flex items-center space-x-2 px-4 py-2 rounded-lg ${darkMode
 						? 'bg-red-600 hover:bg-red-700'
 						: 'bg-red-500 hover:bg-red-600'

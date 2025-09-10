@@ -1,20 +1,27 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { showToast } from '../showToast';
+import { showToast, toastConfig } from '../showToast';
+import { toast } from 'react-toastify';
 import { useDarkMode } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
+import { apiPostForm } from '../api/client';
 
 const SignUp = () => {
 	const navigate = useNavigate();
 	const { darkMode } = useDarkMode();
+	const { setToken, setUser, setRole } = useAuth();
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [formData, setFormData] = useState({
 		firstName: '',
 		lastName: '',
 		email: '',
+		phone: '',
 		password: '',
 		confirmPassword: '',
+		registerAs: 'user',
 	});
 
 	const handleChange = (e) => {
@@ -25,19 +32,47 @@ const SignUp = () => {
 		}));
 	};
 
-	const handleSubmit = (e) => {
+	const onSubmitForm = async (e) => {
 		e.preventDefault();
 
-		// Basic validation
 		if (formData.password !== formData.confirmPassword) {
-			showToast('Passwords do not match!', 'error');
+			showToast.error('Passwords do not match!');
 			return;
 		}
-
-		// Here you would typically handle registration
-		// For now, we'll just show a success message and redirect
-		showToast('Account created successfully!', 'success');
-		navigate('/signin');
+		if (formData.registerAs === 'user' && !formData.phone) {
+			showToast.error('Phone is required for user registration');
+			return;
+		}
+		if (isSubmitting) return;
+		setIsSubmitting(true);
+		try {
+			const path = formData.registerAs === 'admin' ? '/admin/register' : '/register';
+			const payload = {
+				name: `${formData.firstName} ${formData.lastName}`.trim(),
+				first_name: formData.firstName,
+				last_name: formData.lastName,
+				email: formData.email,
+				password: formData.password,
+				password_confirmation: formData.confirmPassword,
+				...(formData.registerAs === 'user' ? { phone: formData.phone } : {}),
+			};
+			const data = await apiPostForm(path, payload);
+			const receivedToken = data.token || data.access_token || data?.data?.token;
+			const receivedUser = data.user || data?.data?.user || { name: payload.name, email: payload.email };
+			if (!receivedToken) throw new Error('No token returned');
+			setToken(receivedToken);
+			const fallbackName = receivedUser?.name || payload.name;
+			const email = receivedUser?.email || payload.email;
+			const avatar = receivedUser?.avatar || `https://api.dicebear.com/7.x/identicon/svg?seed=${encodeURIComponent(email || fallbackName)}`;
+			setUser({ ...receivedUser, name: fallbackName, email, avatar, phone: receivedUser?.phone || formData.phone });
+			setRole(formData.registerAs === 'admin' ? 'admin' : 'customer');
+			toast.success('Account created successfully!', toastConfig);
+			navigate(formData.registerAs === 'admin' ? '/Retailer/dashboard' : '/Retailer');
+		} catch (err) {
+			showToast.error(err.message || 'Registration failed');
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
 	return (
@@ -54,7 +89,7 @@ const SignUp = () => {
 						</Link>
 					</p>
 				</div>
-				<form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+				<form className="mt-8 space-y-6" onSubmit={onSubmitForm}>
 					<div className="rounded-md shadow-sm space-y-4">
 						<div className="grid grid-cols-2 gap-4">
 							<div>
@@ -104,6 +139,23 @@ const SignUp = () => {
 								onChange={handleChange}
 							/>
 						</div>
+						{formData.registerAs === 'user' && (
+							<div>
+								<label htmlFor="phone" className="sr-only">
+									Phone
+								</label>
+								<input
+									id="phone"
+									name="phone"
+									type="tel"
+									required
+									className={`appearance-none rounded-lg relative block w-full px-3 py-2 border ${darkMode ? 'border-gray-600 bg-gray-700 text-gray-100 placeholder-gray-400' : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500'} focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
+									placeholder="Phone number"
+									value={formData.phone}
+									onChange={handleChange}
+								/>
+							</div>
+						)}
 						<div className="relative">
 							<label htmlFor="password" className="sr-only">
 								Password
@@ -156,14 +208,27 @@ const SignUp = () => {
 								)}
 							</button>
 						</div>
+						<div>
+							<label className={`block mb-1 text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Register as</label>
+							<select
+								name="registerAs"
+								value={formData.registerAs}
+								onChange={handleChange}
+								className={`appearance-none rounded-lg relative block w-full px-3 py-2 border ${darkMode ? 'border-gray-600 bg-gray-700 text-gray-100' : 'border-gray-300 bg-white text-gray-900'} focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+							>
+								<option value="user">User</option>
+								<option value="admin">Admin</option>
+							</select>
+						</div>
 					</div>
 
 					<div>
 						<button
 							type="submit"
 							className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+							disabled={isSubmitting}
 						>
-							Create Account
+							{isSubmitting ? 'Creating...' : 'Create Account'}
 						</button>
 					</div>
 				</form>

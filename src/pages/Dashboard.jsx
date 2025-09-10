@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FaPlus, FaUsers } from 'react-icons/fa';
 import { useDarkMode } from '../context/ThemeContext';
 import { useAdmin } from '../context/AdminContext';
+import { useAuth } from '../context/AuthContext';
 import DashboardHeader from '../components/dashboard/DashboardHeader';
 import DashboardSidebar from '../components/dashboard/DashboardSidebar';
 import AdminStats from '../components/dashboard/AdminStats';
@@ -10,13 +11,6 @@ import ProductTable from '../components/dashboard/ProductTable';
 import OrderList from '../components/dashboard/OrderList';
 import UserProfile from '../components/dashboard/UserProfile';
 import PaymentMethods from '../components/dashboard/PaymentMethods';
-
-// Mock user data
-const mockUser = {
-	name: 'John Doe',
-	email: 'john@example.com',
-	joinDate: 'January 2024',
-};
 
 // Mock order history
 const mockOrders = [
@@ -48,6 +42,9 @@ export default function Dashboard() {
 
 	const { darkMode } = useDarkMode();
 	const { isAdmin, products, stats, addProduct, updateProduct, deleteProduct, toggleAdmin } = useAdmin();
+	const { user, role } = useAuth();
+
+	const isRealAdmin = role === 'admin';
 
 	const handleAddProduct = (productData) => {
 		addProduct(productData);
@@ -73,11 +70,11 @@ export default function Dashboard() {
 	};
 
 	const handleToggleAdmin = () => {
-		toggleAdmin();
+		if (isRealAdmin) toggleAdmin();
 	};
 
 	const renderMainContent = () => {
-		if (isAdmin) {
+		if (isRealAdmin && isAdmin) {
 			switch (activeTab) {
 				case 'stats':
 					return <AdminStats stats={stats} />;
@@ -146,7 +143,7 @@ export default function Dashboard() {
 						</div>
 					);
 				case 'profile':
-					return <UserProfile user={mockUser} />;
+					return <UserProfile user={{ name: user?.name || '', email: user?.email || '', avatar: user?.avatar || '' }} />;
 				case 'payment':
 					return <PaymentMethods />;
 				default:
@@ -155,22 +152,21 @@ export default function Dashboard() {
 		}
 	};
 
+
 	return (
 		<div className={`min-h-screen pt-16 pl-64 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>
 			<div className="container mx-auto px-6 py-8">
 				<DashboardHeader
-					isAdmin={isAdmin}
+					isAdmin={isRealAdmin && isAdmin}
 					onToggleAdmin={handleToggleAdmin}
 				/>
-
-				{/* {isAdmin && activeTab === 'stats' && <AdminStats stats={stats} />} */}
 
 				<div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
 					<DashboardSidebar
 						activeTab={activeTab}
 						setActiveTab={setActiveTab}
-						isAdmin={isAdmin}
-						user={mockUser}
+						isAdmin={isRealAdmin && isAdmin}
+						user={{ name: user?.name || '', email: user?.email || '', avatar: user?.avatar || '' }}
 					/>
 
 					<div className="lg:col-span-3">
